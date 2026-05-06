@@ -1,0 +1,43 @@
+{
+    "bundles": {
+        "Musikhood\\AuthClient\\AuthClientBundle": ["all"]
+    },
+    "copy-from-recipe": {
+        "config/": "%CONFIG_DIR%/"
+    },
+    "env": {
+        "AUTH_BASE_URL": "https://auth.example.com",
+        "AUTH_PANEL_ID": "00000000-0000-0000-0000-000000000000",
+        "AUTH_CLIENT_ID": "your-client-id",
+        "AUTH_CLIENT_SECRET": "your-client-secret",
+        "AUTH_COOKIE_SECURE": "1"
+    },
+    "post-install-output": [
+        "",
+        "<bg=blue;fg=white>                                                            </>",
+        "<bg=blue;fg=white>  auth-client-bundle installed — manual steps still needed:  </>",
+        "<bg=blue;fg=white>                                                            </>",
+        "",
+        "  <fg=cyan>1.</> Set AUTH_* env vars in <comment>.env.local</> (real auth server URL,",
+        "     panel id, client_id and client_secret from the auth-server admin panel).",
+        "",
+        "  <fg=cyan>2.</> Create the <comment>User</> entity implementing <comment>PanelUserInterface</>",
+        "     and the <comment>UserRepository</> implementing <comment>PanelUserRepositoryInterface</>.",
+        "     Reference implementations:",
+        "       <href=https://github.com/musikhood/auth-client-bundle/blob/main/docs/example-entity.php>docs/example-entity.php</>",
+        "       <href=https://github.com/musikhood/auth-client-bundle/blob/main/docs/example-repository.php>docs/example-repository.php</>",
+        "",
+        "  <fg=cyan>3.</> Add the repository alias to <comment>config/services.yaml</>:",
+        "       <fg=green>Musikhood\\AuthClient\\Contract\\PanelUserRepositoryInterface:</>",
+        "         <fg=green>alias: App\\Repository\\UserRepository</>",
+        "",
+        "  <fg=cyan>4.</> Add the firewall + access_control to <comment>config/packages/security.yaml</>.",
+        "     See: <href=https://github.com/musikhood/auth-client-bundle#configure-security>README — Configure security</>",
+        "",
+        "  <fg=cyan>5.</> Run the migration for the <comment>users</> table.",
+        "     See: <href=https://github.com/musikhood/auth-client-bundle/blob/main/docs/example-migration.sql>docs/example-migration.sql</>",
+        "",
+        "  Full setup walkthrough: <href=https://github.com/musikhood/auth-client-bundle#installation>README</>",
+        ""
+    ]
+}

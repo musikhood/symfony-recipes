@@ -1,0 +1,7 @@
+auth_client:
+    base_url:      '%env(AUTH_BASE_URL)%'
+    panel_id:      '%env(AUTH_PANEL_ID)%'
+    client_id:     '%env(AUTH_CLIENT_ID)%'
+    client_secret: '%env(AUTH_CLIENT_SECRET)%'
+    cookie:
+        secure: '%env(bool:default::AUTH_COOKIE_SECURE)%'

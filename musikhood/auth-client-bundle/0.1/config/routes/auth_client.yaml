@@ -1,0 +1,2 @@
+auth_client:
+    resource: '@AuthClientBundle/Resources/config/routes.yaml'

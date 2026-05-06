@@ -1,0 +1,15 @@
+{
+  "recipes": {
+    "musikhood/auth-client-bundle": [
+      "0.1"
+    ]
+  },
+  "branch": "main",
+  "is_contrib": true,
+  "_links": {
+    "repository": "github.com/musikhood/symfony-recipes",
+    "origin_template": "{package}:{version}@github.com/musikhood/symfony-recipes:main",
+    "recipe_template": "https://raw.githubusercontent.com/musikhood/symfony-recipes/main/{package_dotted}.{version}.json",
+    "recipe_template_relative": "{package_dotted}.{version}.json"
+  }
+}
