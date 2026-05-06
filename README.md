@@ -1,22 +1,24 @@
 # Musikhood Symfony Flex recipes
 
-Symfony Flex endpoint hosting recipes for Musikhood-maintained Symfony bundles.
+Endpoint Symfony Flex hostujący recipes dla paczek Symfony utrzymywanych
+przez Musikhood.
 
-A "recipe" is the small set of automated steps Flex runs when a consumer
-installs a bundle: registering the bundle in `config/bundles.php`, copying
-default config templates into `config/packages/`, appending env vars to
-`.env`, and printing post-install instructions for anything that has to be
-done by hand.
+"Recipe" to mały zestaw kroków, które Symfony Flex wykonuje automatycznie
+przy instalacji paczki: rejestracja bundla w `config/bundles.php`,
+skopiowanie domyślnych szablonów do `config/packages/`, dopisanie zmiennych
+środowiskowych do `.env`, wyświetlenie post-install message z
+manualnymi krokami, których recipe nie powinien robić sam.
 
-## Recipes hosted here
+## Recipes hostowane tutaj
 
-| Package | Versions |
+| Paczka | Wersje |
 |---|---|
 | [`musikhood/auth-client-bundle`](https://github.com/musikhood/auth-client-bundle) | `0.1` |
 
-## Using these recipes from a consuming app
+## Instalacja w aplikacji konsumenta
 
-Add this endpoint to the consuming app's `composer.json` (one-time setup):
+Dodaj endpoint do `composer.json` aplikacji, która ma korzystać z recipes
+(jednorazowo):
 
 ```json
 {
@@ -31,48 +33,60 @@ Add this endpoint to the consuming app's `composer.json` (one-time setup):
 }
 ```
 
-The `flex://defaults` line keeps the official Symfony recipes working — keep
-it. The order matters: Flex tries endpoints left-to-right and uses the first
-match.
+Linijka `flex://defaults` zostawia oficjalne recipes Symfony aktywnymi —
+nie wywalaj jej. Kolejność ma znaczenie: Flex próbuje endpointów od lewej
+do prawej i bierze pierwszy match.
 
-After that, every `composer require musikhood/<bundle>` triggers the matching
-recipe automatically. `composer remove` reverses it.
+Po dodaniu endpointu każde `composer require musikhood/<paczka>` automatycznie
+pociągnie recipe. `composer remove` cofnie zmiany.
 
-## Repo layout
+Pierwsze `composer require` po dodaniu endpointu zapyta:
+
+```
+Do you want to execute this recipe?
+[y] Yes  [n] No  [a] Yes for all packages...
+[p] Yes permanently, store this answer in composer.json
+```
+
+Wybierz **`p`** — Flex zapamięta zaufanie do tego endpointu w
+`composer.json`, kolejne instalacje nie będą pytać.
+
+## Struktura repo
 
 ```
 .
-├── index.json                                        # built — lists all recipes/versions
-├── <vendor>.<package>.<version>.json                 # built — one per recipe-version
-├── build.sh                                          # regenerates the built JSON
-└── <vendor>/<package>/<version>/                     # source — what humans edit
+├── index.json                                        # zbudowane — lista recipes/wersji
+├── <vendor>.<package>.<version>.json                 # zbudowane — jeden plik na recipe-wersję
+├── build.sh                                          # generator JSON z folderów
+└── <vendor>/<package>/<version>/                     # źródło — to edytujesz
     ├── manifest.json                                 # bundles, copy-from-recipe, env, etc.
-    └── config/                                       # templates copied into the consumer
+    └── config/                                       # szablony kopiowane do konsumenta
         └── ...
 ```
 
-The folder under `<vendor>/<package>/<version>/` is the **source of truth** —
-edit here. Flex consumers fetch the `*.json` files at the root, which are
-regenerated from the source by `build.sh`.
+Folder `<vendor>/<package>/<version>/` jest **źródłem prawdy** — edytujesz
+tylko tutaj. Konsument Flex pobiera `*.json` z roota, regenerowane z
+folderu przez `build.sh`.
 
-## Adding or updating a recipe
+## Dodawanie / aktualizacja recipe
 
-1. Create or edit `<vendor>/<package>/<version>/manifest.json` and the
-   accompanying template files.
-2. Run `./build.sh`.
-3. Commit both the source and the regenerated `*.json` artifacts.
-4. Push to `main`. Consumers see the new recipe on their next `composer
-   require` / `composer recipes:update`.
+1. Stwórz lub zedytuj `<vendor>/<package>/<version>/manifest.json` plus
+   szablony plików.
+2. Uruchom `./build.sh`.
+3. Zacommituj zarówno źródła jak i wygenerowane `*.json`.
+4. Zrób push na `main`. Konsumenci widzą nowe recipe przy następnym
+   `composer require` / `composer recipes:update`.
 
-## Manifest reference
+## Reference manifestu
 
-Most useful manifest keys (full reference: [Symfony Flex docs](https://github.com/symfony/flex/blob/2.x/src/Configurator/)):
+Najczęściej używane klucze (pełna referencja:
+[Symfony Flex docs](https://github.com/symfony/flex/blob/2.x/src/Configurator/)):
 
-| Key | Effect |
+| Klucz | Efekt |
 |---|---|
-| `bundles` | Adds entries to `config/bundles.php`. |
-| `copy-from-recipe` | Copies template files into the consumer (`%CONFIG_DIR%/`, `%PUBLIC_DIR%/`, `%SRC_DIR%/`). |
-| `env` | Appends key=value lines to `.env` (won't overwrite existing keys). |
-| `gitignore` | Appends entries to `.gitignore`. |
-| `post-install-output` | Lines printed after `composer require` — supports `<comment>`, `<fg=color>`, `<href=...>` formatting. |
-| `composer-scripts` | Adds entries to the consumer's composer.json `scripts` section. |
+| `bundles` | Dodaje wpisy do `config/bundles.php`. |
+| `copy-from-recipe` | Kopiuje szablony plików do konsumenta (`%CONFIG_DIR%/`, `%PUBLIC_DIR%/`, `%SRC_DIR%/`). |
+| `env` | Dopisuje pary klucz=wartość do `.env` (nie nadpisuje istniejących). |
+| `gitignore` | Dopisuje wpisy do `.gitignore`. |
+| `post-install-output` | Linijki wyświetlane po `composer require` — wspiera tagi `<comment>`, `<fg=color>`, `<href=...>`. |
+| `composer-scripts` | Dodaje wpisy do `scripts` w composer.json konsumenta. |
