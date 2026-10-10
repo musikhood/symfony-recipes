@@ -13,12 +13,22 @@ manualnymi krokami, których recipe nie powinien robić sam.
 
 | Paczka | Wersje |
 |---|---|
-| [`musikhood/auth-client-bundle`](https://github.com/musikhood/auth-client-bundle) | `0.1` |
+| [`musikhood/auth-client-bundle`](https://github.com/musikhood/auth-client-bundle) | `0.1`, `0.8` (bundle ≥ 0.8: 4 linie env, `auth-client:install` / `auth-client:doctor`) |
+
+> Dla `auth-client-bundle` ≥ 0.8 endpoint jest **opcjonalny**: bez niego Flex i tak rejestruje bundle
+> w `config/bundles.php`, a `bin/console auth-client:install` dopisuje import tras i klucze `AUTH_*`
+> do `.env`. Recipe daje dodatkowo `auth_client.yaml` z 4 liniami env i komunikat po instalacji.
 
 ## Instalacja w aplikacji konsumenta
 
 Dodaj endpoint do `composer.json` aplikacji, która ma korzystać z recipes
-(jednorazowo):
+(jednorazowo) — jedną komendą:
+
+```bash
+composer config --json extra.symfony.endpoint '["https://api.github.com/repos/musikhood/symfony-recipes/contents/index.json","flex://defaults"]'
+```
+
+albo ręcznie:
 
 ```json
 {

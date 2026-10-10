@@ -1,0 +1,68 @@
+{
+  "manifests": {
+    "musikhood/auth-client-bundle": {
+      "manifest": {
+        "bundles": {
+          "Musikhood\\AuthClient\\AuthClientBundle": [
+            "all"
+          ]
+        },
+        "copy-from-recipe": {
+          "config/": "%CONFIG_DIR%/"
+        },
+        "env": {
+          "#1": "Auth server (API Core). Default: production.",
+          "AUTH_BASE_URL": "https://editor-v3-backend.vitkac.com",
+          "#2": "Panel credentials from the Work HUB access base (secret_to_env) -> .env.local / k8s secret. Never commit the secret.",
+          "AUTH_PANEL_ID": "",
+          "AUTH_CLIENT_ID": "",
+          "AUTH_CLIENT_SECRET": ""
+        },
+        "post-install-output": [
+          "",
+          "<bg=blue;fg=white>                                                       </>",
+          "<bg=blue;fg=white>  auth-client-bundle zainstalowany — jeszcze 3 kroki:  </>",
+          "<bg=blue;fg=white>                                                       </>",
+          "",
+          "  <fg=cyan>1.</> Uzupelnij <comment>AUTH_PANEL_ID</>, <comment>AUTH_CLIENT_ID</>, <comment>AUTH_CLIENT_SECRET</> w <comment>.env.local</>",
+          "     (dane panelu z bazy dostepow Work HUB: secret_to_env).",
+          "",
+          "  <fg=cyan>2.</> <comment>bin/console auth-client:install</>",
+          "     (security.yaml, CORS, trusted proxies — pokaze zmiany przed zapisem).",
+          "",
+          "  <fg=cyan>3.</> <comment>bin/console auth-client:doctor</>   (ma byc zielono)",
+          "",
+          "  Encja User / tabela NIE sa potrzebne (tryb bezstanowy). Polityka 2FA — tylko w auth-panelu.",
+          "  Instrukcja: <href=https://github.com/musikhood/auth-client-bundle/blob/main/INTEGRATION.md>INTEGRATION.md</>",
+          ""
+        ]
+      },
+      "files": {
+        "config/packages/auth_client.yaml": {
+          "contents": [
+            "# musikhood/auth-client-bundle — only the panel's data; everything else has defaults",
+            "# (cookies secure + SameSite=Lax — set same_site: none only for a front on another domain;",
+            "# device binding \"observe\", AUTH_COOKIE_DOMAIN optional).",
+            "# Full reference: bin/console config:dump-reference auth_client",
+            "auth_client:",
+            "    base_url: '%env(AUTH_BASE_URL)%'",
+            "    panel_id: '%env(AUTH_PANEL_ID)%'",
+            "    client_id: '%env(AUTH_CLIENT_ID)%'",
+            "    client_secret: '%env(AUTH_CLIENT_SECRET)%'",
+            ""
+          ],
+          "executable": false
+        },
+        "config/routes/auth_client.yaml": {
+          "contents": [
+            "auth_client:",
+            "    resource: '@AuthClientBundle/Resources/config/routes.yaml'",
+            ""
+          ],
+          "executable": false
+        }
+      },
+      "ref": "aa05f91b01d4461fc8bf20edae03384a8d8742fa"
+    }
+  }
+}
