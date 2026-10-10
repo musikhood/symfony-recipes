@@ -11,9 +11,8 @@
           "config/": "%CONFIG_DIR%/"
         },
         "env": {
-          "#1": "Auth server (API Core). Default: production.",
-          "AUTH_BASE_URL": "https://editor-v3-backend.vitkac.com",
-          "#2": "Panel credentials from the Work HUB access base (secret_to_env) -> .env.local / k8s secret. Never commit the secret.",
+          "#1": "Auth server URL and panel credentials from the access base (secret_to_env) -> .env.local / k8s secret. Never commit the secret.",
+          "AUTH_BASE_URL": "",
           "AUTH_PANEL_ID": "",
           "AUTH_CLIENT_ID": "",
           "AUTH_CLIENT_SECRET": ""
@@ -24,23 +23,24 @@
           "<bg=blue;fg=white>  auth-client-bundle zainstalowany — jeszcze 3 kroki:  </>",
           "<bg=blue;fg=white>                                                       </>",
           "",
-          "  <fg=cyan>1.</> Uzupelnij <comment>AUTH_PANEL_ID</>, <comment>AUTH_CLIENT_ID</>, <comment>AUTH_CLIENT_SECRET</> w <comment>.env.local</>",
-          "     (dane panelu z bazy dostepow Work HUB: secret_to_env).",
+          "  <fg=cyan>1.</> Uzupelnij <comment>AUTH_BASE_URL</>, <comment>AUTH_PANEL_ID</>, <comment>AUTH_CLIENT_ID</>, <comment>AUTH_CLIENT_SECRET</>",
+          "     w <comment>.env.local</> (adres auth servera i dane panelu z bazy dostepow: secret_to_env).",
           "",
           "  <fg=cyan>2.</> <comment>bin/console auth-client:install</>",
           "     (security.yaml, CORS, trusted proxies — pokaze zmiany przed zapisem).",
           "",
           "  <fg=cyan>3.</> <comment>bin/console auth-client:doctor</>   (ma byc zielono)",
           "",
-          "  Encja User / tabela NIE sa potrzebne (tryb bezstanowy). Polityka 2FA — tylko w auth-panelu.",
-          "  Instrukcja: <href=https://github.com/musikhood/auth-client-bundle/blob/main/INTEGRATION.md>INTEGRATION.md</>",
+          "  Encja User / tabela NIE sa potrzebne (tryb bezstanowy). Polityka 2FA — tylko w panelu administracyjnym auth servera.",
+          "  Instrukcja: <href=https://github.com/musikhood/auth-client-bundle/blob/main/INTEGRATION.md>INTEGRATION.md</> (agent AI: vendor/musikhood/auth-client-bundle/AI_INTEGRATION.md)",
           ""
         ]
       },
       "files": {
         "config/packages/auth_client.yaml": {
           "contents": [
-            "# musikhood/auth-client-bundle — only the panel's data; everything else has defaults",
+            "# musikhood/auth-client-bundle — only the auth server URL and the panel's data (all four required);",
+            "# everything else has defaults",
             "# (cookies secure + SameSite=Lax — set same_site: none only for a front on another domain;",
             "# device binding \"observe\", AUTH_COOKIE_DOMAIN optional).",
             "# Full reference: bin/console config:dump-reference auth_client",
@@ -62,7 +62,7 @@
           "executable": false
         }
       },
-      "ref": "aa05f91b01d4461fc8bf20edae03384a8d8742fa"
+      "ref": "8be23c9dd42e399b12e4146e33b9605f7e2cbc7f"
     }
   }
 }

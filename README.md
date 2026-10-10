@@ -100,3 +100,18 @@ Najczęściej używane klucze (pełna referencja:
 | `gitignore` | Dopisuje wpisy do `.gitignore`. |
 | `post-install-output` | Linijki wyświetlane po `composer require` — wspiera tagi `<comment>`, `<fg=color>`, `<href=...>`. |
 | `composer-scripts` | Dodaje wpisy do `scripts` w composer.json konsumenta. |
+
+## Publiczne repo — bez nazw wewnętrznych
+
+Recipes pobiera każdy konsument Flex, więc pliki repo (źródła i zbudowane JSON-y) nie mogą zawierać firmowych
+domen ani nazw wewnętrznych produktów — tylko przykłady (`https://auth.example.com`). Adres auth servera i dane
+panelu konsument bierze z bazy dostępów (`secret_to_env`), nie z recipe.
+
+`scripts/leak-check.py` skanuje pliki repo (śledzone + nowe, nieignorowane) tymi samymi wzorcami co
+`scripts/leak-check.mjs` w auth-client i `tests/Meta/NoInternalNamesTest.php` w auth-client-bundle.
+`./build.sh` uruchamia go na końcu i kończy się błędem przy trafieniu. Ręcznie:
+
+```bash
+python3 scripts/leak-check.py            # całe repo
+python3 scripts/leak-check.py plik.json  # wybrane pliki
+```

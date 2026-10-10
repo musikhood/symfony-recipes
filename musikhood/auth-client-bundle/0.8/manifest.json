@@ -6,9 +6,8 @@
         "config/": "%CONFIG_DIR%/"
     },
     "env": {
-        "#1": "Auth server (API Core). Default: production.",
-        "AUTH_BASE_URL": "https://editor-v3-backend.vitkac.com",
-        "#2": "Panel credentials from the Work HUB access base (secret_to_env) -> .env.local / k8s secret. Never commit the secret.",
+        "#1": "Auth server URL and panel credentials from the access base (secret_to_env) -> .env.local / k8s secret. Never commit the secret.",
+        "AUTH_BASE_URL": "",
         "AUTH_PANEL_ID": "",
         "AUTH_CLIENT_ID": "",
         "AUTH_CLIENT_SECRET": ""
@@ -19,16 +18,16 @@
         "<bg=blue;fg=white>  auth-client-bundle zainstalowany — jeszcze 3 kroki:  </>",
         "<bg=blue;fg=white>                                                       </>",
         "",
-        "  <fg=cyan>1.</> Uzupelnij <comment>AUTH_PANEL_ID</>, <comment>AUTH_CLIENT_ID</>, <comment>AUTH_CLIENT_SECRET</> w <comment>.env.local</>",
-        "     (dane panelu z bazy dostepow Work HUB: secret_to_env).",
+        "  <fg=cyan>1.</> Uzupelnij <comment>AUTH_BASE_URL</>, <comment>AUTH_PANEL_ID</>, <comment>AUTH_CLIENT_ID</>, <comment>AUTH_CLIENT_SECRET</>",
+        "     w <comment>.env.local</> (adres auth servera i dane panelu z bazy dostepow: secret_to_env).",
         "",
         "  <fg=cyan>2.</> <comment>bin/console auth-client:install</>",
         "     (security.yaml, CORS, trusted proxies — pokaze zmiany przed zapisem).",
         "",
         "  <fg=cyan>3.</> <comment>bin/console auth-client:doctor</>   (ma byc zielono)",
         "",
-        "  Encja User / tabela NIE sa potrzebne (tryb bezstanowy). Polityka 2FA — tylko w auth-panelu.",
-        "  Instrukcja: <href=https://github.com/musikhood/auth-client-bundle/blob/main/INTEGRATION.md>INTEGRATION.md</>",
+        "  Encja User / tabela NIE sa potrzebne (tryb bezstanowy). Polityka 2FA — tylko w panelu administracyjnym auth servera.",
+        "  Instrukcja: <href=https://github.com/musikhood/auth-client-bundle/blob/main/INTEGRATION.md>INTEGRATION.md</> (agent AI: vendor/musikhood/auth-client-bundle/AI_INTEGRATION.md)",
         ""
     ]
 }

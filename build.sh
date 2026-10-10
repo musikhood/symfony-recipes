@@ -116,4 +116,8 @@ PY
 
 echo
 echo "built ${#MANIFESTS[@]} recipe(s)"
+
+# Public repo: fail when sources or the built JSON contain company domains / internal names.
+python3 scripts/leak-check.py
+echo "leak-check: ok"
 ls -la *.json | grep -v "^total"
