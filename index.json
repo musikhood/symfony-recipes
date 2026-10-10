@@ -1,7 +1,8 @@
 {
   "recipes": {
     "musikhood/auth-client-bundle": [
-      "0.1"
+      "0.1",
+      "0.8"
     ]
   },
   "branch": "main",

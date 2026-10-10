@@ -1,0 +1,9 @@
+# musikhood/auth-client-bundle — only the panel's data; everything else has defaults
+# (cookies secure + SameSite=Lax — set same_site: none only for a front on another domain;
+# device binding "observe", AUTH_COOKIE_DOMAIN optional).
+# Full reference: bin/console config:dump-reference auth_client
+auth_client:
+    base_url: '%env(AUTH_BASE_URL)%'
+    panel_id: '%env(AUTH_PANEL_ID)%'
+    client_id: '%env(AUTH_CLIENT_ID)%'
+    client_secret: '%env(AUTH_CLIENT_SECRET)%'
